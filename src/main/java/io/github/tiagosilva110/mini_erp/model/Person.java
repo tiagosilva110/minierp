@@ -20,7 +20,7 @@ public class Person {
     private UUID id;
 
     @Column(name = "isperson", nullable = false)
-    private boolean isPerson;
+    private Boolean isPerson;
 
     @Column(name = "cpfcnpj", length = 14)
     private String cpfCnpj;
@@ -32,7 +32,7 @@ public class Person {
     private String fantasyName;
 
     @Column(name = "department")
-    private int department;
+    private Integer department;
 
     @Column(name = "phone", length = 11)
     private String phone;
@@ -62,13 +62,13 @@ public class Person {
     private String stateReg;
 
     @Column(name = "issuply")
-    private boolean isSuply;
+    private Boolean isSuply;
 
     @Column(name = "isclient")
-    private boolean isClient;
+    private Boolean isClient;
 
     @Column(name = "isemployee")
-    private boolean isEmployee;
+    private Boolean isEmployee;
 
     @CreatedDate
     @Column(name = "timestamp_reg")

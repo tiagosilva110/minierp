@@ -4,11 +4,16 @@ import io.github.tiagosilva110.mini_erp.model.Person;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.Instant;
+import java.util.UUID;
 
 public class PersonSpecs {
 
-    public static Specification<Person> isPerson(){
-        return ((root, query, cb) -> cb.isTrue(root.get("isPerson")));
+    public static Specification<Person> isPerson(Boolean isPerson){
+        return ((root, query, cb) -> cb.equal(root.get("isPerson"), isPerson));
+    }
+
+    public static Specification<Person> cpfCnpjEquals(String code){
+        return ((root, query, cb) -> cb.equal(root.get("cpfCnpj"), code));
     }
 
     public static Specification<Person> nameLike(String name){
@@ -19,11 +24,11 @@ public class PersonSpecs {
         return ((root, query, cb) -> cb.like(cb.upper(root.get("fantasyName")), "%"+name.toUpperCase()+"%"));
     }
 
-    public static Specification<Person> departmentEquals(int departmentNumber){
+    public static Specification<Person> departmentEquals(Integer departmentNumber){
         return ((root, query, cb) -> cb.equal(root.get("department"), departmentNumber));
     }
 
-    public static Specification<Person> phoneEquals(int phone){
+    public static Specification<Person> phoneEquals(String phone){
         return ((root, query, cb) -> cb.equal(root.get("phone"), phone));
     }
 
@@ -59,16 +64,16 @@ public class PersonSpecs {
         return ((root, query, cb) -> cb.equal(cb.upper(root.get("stateReg")), stateReg.toUpperCase()));
     }
 
-    public static Specification<Person> isSuply(){
-        return ((root, query, cb) -> cb.isTrue(root.get("isSuply")));
+    public static Specification<Person> isSuply(Boolean isSuply){
+        return ((root, query, cb) -> cb.equal(root.get("isSuply"),isSuply));
     }
 
-    public static Specification<Person> isClient(){
-        return ((root, query, cb) -> cb.isTrue(root.get("isClient")));
+    public static Specification<Person> isClient(Boolean isClient){
+        return ((root, query, cb) -> cb.equal(root.get("isClient"), isClient));
     }
 
-    public static Specification<Person> isEmployee(){
-        return ((root, query, cb) -> cb.isTrue(root.get("isEmployee")));
+    public static Specification<Person> isEmployee(Boolean isEmployee){
+        return ((root, query, cb) -> cb.equal(root.get("isEmployee"), isEmployee));
     }
 
     public static Specification<Person> timestampRegBetween(
@@ -78,7 +83,7 @@ public class PersonSpecs {
                 cb.between(root.get("timestampReg"), start, end);
     }
 
-    public static Specification<Person> enterpriseEquals(String enterprise){
+    public static Specification<Person> enterpriseEquals(UUID enterprise){
         return ((root, query, cb) -> cb.equal(root.get("enterprise"), enterprise));
     }
 
