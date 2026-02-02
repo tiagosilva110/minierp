@@ -7,27 +7,18 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "product")
+@Table(name = "department")
 @Getter
 @Setter
-public class Product {
+public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "name", length = 64, nullable = false)
-    private String name;
-
-    @Column(name = "fantasy_name", length = 64)
-    private String fantasyName;
-
-    @Column(name = "pricing")
-    private UUID pricing;
-
-    @Column(name = "specification")
-    private UUID specification;
+    @Column(name = "description", length = 128)
+    private String description;
 
     @Column(name = "enterprise")
     private UUID enterprise;

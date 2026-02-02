@@ -13,9 +13,10 @@ public record PersonDTO(
         String name,
         @Size(max = 60, message = "Field out of size range")
         String fantasyName,
-        Integer department,
+        String department,
         @Size(max = 11, message = "Field out of size range")
         String phone,
+        @Email
         @Size(max = 60, message = "Field out of size range")
         String email,
         @Size(max = 30, message = "Field out of size range")
@@ -34,8 +35,7 @@ public record PersonDTO(
         String stateReg,
         Boolean isSuply,
         Boolean isClient,
-        Boolean isEmployee,
-        UUID enterprise
+        Boolean isEmployee
 ) {
 
 }
