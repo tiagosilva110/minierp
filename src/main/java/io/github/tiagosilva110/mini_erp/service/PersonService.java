@@ -1,6 +1,14 @@
 package io.github.tiagosilva110.mini_erp.service;
 
+import io.github.tiagosilva110.mini_erp.controller.dto.PersonCreateDTO;
+import io.github.tiagosilva110.mini_erp.controller.dto.PersonDTO;
+import io.github.tiagosilva110.mini_erp.controller.dto.PersonUpdateDTO;
+import io.github.tiagosilva110.mini_erp.controller.dto.mapper.AddressMapper;
+import io.github.tiagosilva110.mini_erp.controller.dto.mapper.ContactMapper;
+import io.github.tiagosilva110.mini_erp.controller.dto.mapper.PersonMapper;
+import io.github.tiagosilva110.mini_erp.model.Department;
 import io.github.tiagosilva110.mini_erp.model.Person;
+import io.github.tiagosilva110.mini_erp.repository.DepartmentRepository;
 import io.github.tiagosilva110.mini_erp.repository.PersonRepository;
 import io.github.tiagosilva110.mini_erp.repository.specs.PersonSpecs;
 import jakarta.persistence.Column;
@@ -23,21 +31,50 @@ import java.util.UUID;
 public class PersonService {
 
     private final PersonRepository repository;
+    private final DepartmentRepository departmentRepository;
 
-    public Person save(Person person){
-        return repository.save(person);
-    }
+    private final PersonMapper personMapper;
+    private final ContactMapper contactMapper;
+    private final AddressMapper addressMapper;
 
-    public void update(Person person) {
-        if(person.getId() == null){
-            throw new IllegalArgumentException("Requires saved person");
+    public PersonDTO create(PersonCreateDTO dto){
+        Person person = personMapper.toEntity(dto);
+
+        if (dto.contact() != null){
+            person.setContact(
+                    contactMapper.toEntity(dto.contact())
+            );
         }
-        repository.save(person);
+
+        if (dto.address() != null){
+            person.setAddress(
+                    addressMapper.toEntity(dto.address())
+            );
+        }
+
+        if (dto.department() != null) {
+            Department department = (Department) departmentRepository
+                    .findById(dto.department())
+                    .orElseThrow(() ->
+                            new IllegalArgumentException("Department not found")
+                    );
+            person.setDepartment(department);
+        }
+
+        Person saved = repository.save(person);
+
+        return personMapper.toDTO(saved);
+
     }
 
-    public Optional<Person> findById(UUID id){
-        return repository.findById(id);
+    public PersonDTO findById(UUID id) {
+        Person person = repository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Person not found")
+                );
+        return personMapper.toDTO(person);
     }
+
 
     public void delete(Person person){
         repository.delete(person);
@@ -58,7 +95,7 @@ public class PersonService {
             String adress,
             String complement,
             String stateReg,
-            Boolean isSuply,
+            Boolean isSupply,
             Boolean isClient,
             Boolean isEmployee,
             UUID enterprise
@@ -80,35 +117,8 @@ public class PersonService {
         if (department != null){
             specs = specs.and(PersonSpecs.departmentEquals(department));
         }
-        if (phone != null){
-            specs = specs.and(PersonSpecs.phoneEquals(phone));
-        }
-        if (email != null){
-            specs = specs.and(PersonSpecs.emailLike(email));
-        }
-        if (district != null){
-            specs = specs.and(PersonSpecs.districtLike(district));
-        }
-        if (city != null){
-            specs = specs.and(PersonSpecs.cityLike(city));
-        }
-        if (country != null){
-            specs = specs.and(PersonSpecs.countryLike(country));
-        }
-        if (cep != null){
-            specs = specs.and(PersonSpecs.cepEquals(cep));
-        }
-        if (adress != null){
-            specs = specs.and(PersonSpecs.adressLike(adress));
-        }
-        if (complement != null){
-            specs = specs.and(PersonSpecs.complementLike(complement));
-        }
-        if (stateReg != null){
-            specs = specs.and(PersonSpecs.stateRegEquals(stateReg));
-        }
-        if (isSuply != null){
-            specs = specs.and(PersonSpecs.isSuply(isSuply));
+        if (isSupply != null){
+            specs = specs.and(PersonSpecs.isSupply(isSupply));
         }
         if (isClient != null){
             specs = specs.and(PersonSpecs.isClient(isClient));

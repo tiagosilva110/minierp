@@ -26,17 +26,24 @@ public class Person {
     @Column(name = "fantasy_name", length = 64)
     private String fantasyName;
 
-    @Column(name = "contact")
-    private UUID contact;
 
-    @Column(name = "adress")
-    private UUID adress;
 
-    @Column(name = "department")
-    private UUID department;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "contact")
+    private Contact contact;
 
-    @Column(name = "is_suply")
-    private Boolean isSuply;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "adress")
+    private Address address;
+
+    @ManyToOne
+    @JoinColumn(name = "department")
+    private Department department;
+
+    @Column(name = "is_supply")
+    private Boolean isSupply;
+
+
 
     @Column(name = "is_client")
     private Boolean isClient;
@@ -46,6 +53,8 @@ public class Person {
 
     @Column(name = "is_person")
     private Boolean isPerson;
+
+
 
     @Column(name = "enterprise")
     private UUID enterprise;

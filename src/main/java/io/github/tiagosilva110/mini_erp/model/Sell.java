@@ -22,7 +22,7 @@ public class Sell {
     @Column(name = "person")
     private UUID person;
 
-    @Column(name = "person")
+    @Column(name = "amount")
     private Integer amount;
 
     @Column(name = "sell_date")

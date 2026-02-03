@@ -2,20 +2,16 @@ package io.github.tiagosilva110.mini_erp.controller.dto;
 
 import java.util.UUID;
 
-public record PersonDTO (
-        UUID id,
-        String cpfCnpj,
+public record PersonUpdateDTO(
         String name,
         String fantasyName,
 
-        Boolean isPerson,
         Boolean isSuply,
         Boolean isClient,
         Boolean isEmployee,
 
-        ContactDTO contact,
-        AddressDTO address
-        //DepartmentDTO department
+        ContactUpdateDTO contact,
+        AddressUpdateDTO address,
+        UUID departmentId
 ) {
-
 }
