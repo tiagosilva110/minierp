@@ -1,29 +1,16 @@
 package io.github.tiagosilva110.mini_erp.service;
 
-import io.github.tiagosilva110.mini_erp.controller.dto.PersonCreateDTO;
 import io.github.tiagosilva110.mini_erp.controller.dto.PersonDTO;
-import io.github.tiagosilva110.mini_erp.controller.dto.PersonUpdateDTO;
-import io.github.tiagosilva110.mini_erp.controller.dto.mapper.AddressMapper;
-import io.github.tiagosilva110.mini_erp.controller.dto.mapper.ContactMapper;
-import io.github.tiagosilva110.mini_erp.controller.dto.mapper.PersonMapper;
-import io.github.tiagosilva110.mini_erp.model.Department;
 import io.github.tiagosilva110.mini_erp.model.Person;
 import io.github.tiagosilva110.mini_erp.repository.DepartmentRepository;
 import io.github.tiagosilva110.mini_erp.repository.PersonRepository;
 import io.github.tiagosilva110.mini_erp.repository.specs.PersonSpecs;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,46 +20,37 @@ public class PersonService {
     private final PersonRepository repository;
     private final DepartmentRepository departmentRepository;
 
-    private final PersonMapper personMapper;
-    private final ContactMapper contactMapper;
-    private final AddressMapper addressMapper;
+    public Person create(Person person){
 
-    public PersonDTO create(PersonCreateDTO dto){
-        Person person = personMapper.toEntity(dto);
-
-        if (dto.contact() != null){
+        if (person.getContact() != null){
             person.setContact(
-                    contactMapper.toEntity(dto.contact())
+                    person.getContact()
             );
         }
 
-        if (dto.address() != null){
+        if (person.getAddress() != null){
             person.setAddress(
-                    addressMapper.toEntity(dto.address())
+                    person.getAddress()
             );
         }
 
-        if (dto.department() != null) {
-            Department department = (Department) departmentRepository
-                    .findById(dto.department())
-                    .orElseThrow(() ->
-                            new IllegalArgumentException("Department not found")
-                    );
-            person.setDepartment(department);
+        if (person.getDepartment() != null) {
+            person.setDepartment(
+                    person.getDepartment()
+            );
+
         }
 
-        Person saved = repository.save(person);
-
-        return personMapper.toDTO(saved);
+        return repository.save(person);
 
     }
 
-    public PersonDTO findById(UUID id) {
+    public Person findById(UUID id) {
         Person person = repository.findById(id)
                 .orElseThrow(() ->
                         new IllegalArgumentException("Person not found")
                 );
-        return personMapper.toDTO(person);
+        return person;
     }
 
 

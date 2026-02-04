@@ -20,7 +20,5 @@ public class Department {
     @Column(name = "description", length = 128)
     private String description;
 
-    @Column(name = "enterprise")
-    private UUID enterprise;
 
 }

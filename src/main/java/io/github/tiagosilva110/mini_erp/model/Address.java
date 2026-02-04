@@ -22,12 +22,15 @@ public class Address {
 
     @Column(name = "country", length = 32)
     private String country;
-
+    
     @Column(name = "district", length = 32)
     private String district;
 
+    @Column(name = "city", length = 32)
+    private String city;
+
     @Column(name = "adress", length = 128)
-    private String adress;
+    private String address;
 
     @Column(name = "complement", length = 64)
     private String complement;

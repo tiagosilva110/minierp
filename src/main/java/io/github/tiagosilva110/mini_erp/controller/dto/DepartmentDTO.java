@@ -1,5 +1,10 @@
 package io.github.tiagosilva110.mini_erp.controller.dto;
 
-public class DepartmentDTO {
-    String description;
+import java.util.UUID;
+
+public record DepartmentDTO(
+        UUID id,
+        String description
+) {
+
 }

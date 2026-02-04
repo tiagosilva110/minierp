@@ -36,7 +36,9 @@ public class Person {
     @JoinColumn(name = "adress")
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "department")
     private Department department;
 
